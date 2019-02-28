@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		11B3EE002224FF4200D0F694 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3EDFF2224FF4200D0F694 /* AppDelegate.swift */; };
-		11B3EE022224FF4200D0F694 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3EE012224FF4200D0F694 /* FirstViewController.swift */; };
 		11B3EE042224FF4200D0F694 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3EE032224FF4200D0F694 /* SecondViewController.swift */; };
 		11B3EE072224FF4300D0F694 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11B3EE052224FF4300D0F694 /* Main.storyboard */; };
 		11B3EE092224FF6400D0F694 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11B3EE082224FF6400D0F694 /* Assets.xcassets */; };
 		11B3EE0C2224FF6400D0F694 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11B3EE0A2224FF6400D0F694 /* LaunchScreen.storyboard */; };
+		11B3EE1622263A9000D0F694 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3EE1522263A9000D0F694 /* TableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		11B3EDFC2224FF4200D0F694 /* Karaoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karaoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11B3EDFF2224FF4200D0F694 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		11B3EE012224FF4200D0F694 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		11B3EE032224FF4200D0F694 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		11B3EE062224FF4300D0F694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		11B3EE082224FF6400D0F694 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		11B3EE0B2224FF6400D0F694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		11B3EE0D2224FF6400D0F694 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11B3EE1522263A9000D0F694 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				11B3EDFF2224FF4200D0F694 /* AppDelegate.swift */,
-				11B3EE012224FF4200D0F694 /* FirstViewController.swift */,
+				11B3EE1522263A9000D0F694 /* TableViewController.swift */,
 				11B3EE032224FF4200D0F694 /* SecondViewController.swift */,
 				11B3EE052224FF4300D0F694 /* Main.storyboard */,
 				11B3EE082224FF6400D0F694 /* Assets.xcassets */,
@@ -140,7 +140,7 @@
 			files = (
 				11B3EE042224FF4200D0F694 /* SecondViewController.swift in Sources */,
 				11B3EE002224FF4200D0F694 /* AppDelegate.swift in Sources */,
-				11B3EE022224FF4200D0F694 /* FirstViewController.swift in Sources */,
+				11B3EE1622263A9000D0F694 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,12 +285,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5XELBCV3W5;
 				INFOPLIST_FILE = Karaoke/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = TPham.Karaoke;
+				PRODUCT_BUNDLE_IDENTIFIER = TPham.KaraokeSongs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -302,12 +304,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5XELBCV3W5;
 				INFOPLIST_FILE = Karaoke/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = TPham.Karaoke;
+				PRODUCT_BUNDLE_IDENTIFIER = TPham.KaraokeSongs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
