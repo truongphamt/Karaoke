@@ -24,6 +24,7 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
                 "Memphis, TN", "Baltimore, MD", "Charlotte, ND", "Fort Worth, TX"]
     var filteredData: [String]!
     var searchController: UISearchController!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +41,9 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
         // dimming it out wouldn't make sense. Should probably only set
         // this to yes if using another controller to display the search results.
         searchController.dimsBackgroundDuringPresentation = false
+        //searchController.searchBar.sizeToFit()
+        //tableView.tableHeaderView = searchController.searchBar
         
-        searchController.searchBar.sizeToFit()
-        tableView.tableHeaderView = searchController.searchBar
         
         // Sets this view controller as presenting view controller for the search interface
         definesPresentationContext = true
