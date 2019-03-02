@@ -13,6 +13,9 @@
 		11B3EE092224FF6400D0F694 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11B3EE082224FF6400D0F694 /* Assets.xcassets */; };
 		11B3EE0C2224FF6400D0F694 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11B3EE0A2224FF6400D0F694 /* LaunchScreen.storyboard */; };
 		11B3EE1622263A9000D0F694 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3EE1522263A9000D0F694 /* TableViewController.swift */; };
+		11B3EE1B222AC09E00D0F694 /* Karaoke.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 11B3EE19222AC09E00D0F694 /* Karaoke.xcdatamodeld */; };
+		11B3EE1D222AC4A400D0F694 /* CSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3EE1C222AC4A400D0F694 /* CSV.swift */; };
+		11B3EE1F222AFB5400D0F694 /* SongList.csv in Resources */ = {isa = PBXBuildFile; fileRef = 11B3EE1E222AFB5400D0F694 /* SongList.csv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		11B3EE0B2224FF6400D0F694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		11B3EE0D2224FF6400D0F694 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11B3EE1522263A9000D0F694 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		11B3EE1A222AC09E00D0F694 /* SongModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SongModel.xcdatamodel; sourceTree = "<group>"; };
+		11B3EE1C222AC4A400D0F694 /* CSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSV.swift; sourceTree = "<group>"; };
+		11B3EE1E222AFB5400D0F694 /* SongList.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SongList.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,12 +63,15 @@
 			isa = PBXGroup;
 			children = (
 				11B3EDFF2224FF4200D0F694 /* AppDelegate.swift */,
+				11B3EE1E222AFB5400D0F694 /* SongList.csv */,
 				11B3EE1522263A9000D0F694 /* TableViewController.swift */,
 				11B3EE032224FF4200D0F694 /* SecondViewController.swift */,
 				11B3EE052224FF4300D0F694 /* Main.storyboard */,
 				11B3EE082224FF6400D0F694 /* Assets.xcassets */,
 				11B3EE0A2224FF6400D0F694 /* LaunchScreen.storyboard */,
 				11B3EE0D2224FF6400D0F694 /* Info.plist */,
+				11B3EE19222AC09E00D0F694 /* Karaoke.xcdatamodeld */,
+				11B3EE1C222AC4A400D0F694 /* CSV.swift */,
 			);
 			path = Karaoke;
 			sourceTree = "<group>";
@@ -126,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11B3EE0C2224FF6400D0F694 /* LaunchScreen.storyboard in Resources */,
+				11B3EE1F222AFB5400D0F694 /* SongList.csv in Resources */,
 				11B3EE092224FF6400D0F694 /* Assets.xcassets in Resources */,
 				11B3EE072224FF4300D0F694 /* Main.storyboard in Resources */,
 			);
@@ -140,6 +150,8 @@
 			files = (
 				11B3EE042224FF4200D0F694 /* SecondViewController.swift in Sources */,
 				11B3EE002224FF4200D0F694 /* AppDelegate.swift in Sources */,
+				11B3EE1D222AC4A400D0F694 /* CSV.swift in Sources */,
+				11B3EE1B222AC09E00D0F694 /* Karaoke.xcdatamodeld in Sources */,
 				11B3EE1622263A9000D0F694 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +352,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		11B3EE19222AC09E00D0F694 /* Karaoke.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				11B3EE1A222AC09E00D0F694 /* SongModel.xcdatamodel */,
+			);
+			currentVersion = 11B3EE1A222AC09E00D0F694 /* SongModel.xcdatamodel */;
+			path = Karaoke.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 11B3EDF42224FF4200D0F694 /* Project object */;
 }

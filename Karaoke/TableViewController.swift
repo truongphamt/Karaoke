@@ -35,7 +35,6 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
         filteredData = data
     }
 
-
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
