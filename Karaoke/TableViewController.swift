@@ -15,7 +15,7 @@ class TableViewCell : UITableViewCell{
     @IBOutlet weak var Author: UILabel!
 }
 
-class TableViewController: UITableViewController, UISearchResultsUpdating {
+class TableViewController: UIViewController, UITableViewDataSource, UISearchBarDelegate {
 
     let data = ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX",
                 "Philadelphia, PA", "Phoenix, AZ", "San Diego, CA", "San Antonio, TX",
@@ -23,71 +23,65 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
                 "Jacksonville, FL", "San Francisco, CA", "Columbus, OH", "Austin, TX",
                 "Memphis, TN", "Baltimore, MD", "Charlotte, ND", "Fort Worth, TX"]
     var filteredData: [String]!
-    var searchController: UISearchController!
+
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        super.viewDidLoad()
         tableView.dataSource = self
+        searchBar.delegate = self
         filteredData = data
-        
-        // Initializing with searchResultsController set to nil means that
-        // searchController will use this view controller to display the search results
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        
-        // If we are using this same view controller to present the results
-        // dimming it out wouldn't make sense. Should probably only set
-        // this to yes if using another controller to display the search results.
-        searchController.dimsBackgroundDuringPresentation = false
-        //searchController.searchBar.sizeToFit()
-        //tableView.tableHeaderView = searchController.searchBar
-        
-        
-        // Sets this view controller as presenting view controller for the search interface
-        definesPresentationContext = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredData.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! TableViewCell
 
         // Configure the cell...
+        cell.Number?.text = "\(indexPath.item)"
         cell.Title?.text = filteredData[indexPath.item]
+        cell.Author?.text = filteredData[indexPath.item]
         
         return cell
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredData.count
+    // This method updates filteredData based on the text in the Search Box
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // When there is no text, filteredData is the same as the original data
+        // When user has entered text into the search box
+        // Use the filter method to iterate over all items in the data array
+        // For each item, return true if the item should be included and false if the
+        // item should NOT be included
+        filteredData = searchText.isEmpty ? data : data.filter({(dataString: String) -> Bool in
+            // If dataItem matches the searchText, return true to include it
+            return dataString.range(of: searchText, options: .caseInsensitive) != nil
+        })
+        
+        tableView.reloadData()
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            filteredData = searchText.isEmpty ? data : data.filter({(dataString: String) -> Bool in
-                return dataString.range(of: searchText, options: .caseInsensitive) != nil
-            })
-            
-            tableView.reloadData()
-        }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
