@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         let isPreloaded = defaults.bool(forKey: "isPreloaded")
         if !isPreloaded {
-            preloadData()
+            //preloadData()
             //defaults.set(true, forKey: "isPreloaded")
         }
         return true
@@ -169,20 +169,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         song.number = item.number
                         song.title = item.title
                         
-                        for artistItem in item.artists {
-                            
-                            let artist = NSEntityDescription.insertNewObject(forEntityName: "Artist", into: managedObjectContext) as! Artist
-                            artist.name = artistItem
-                            artist.song = song
-                            
-                            do {
-                                try managedObjectContext.save()
-                                //if managedObjectContext.save() != true {
-                                //    print("insert error: \(error!.localizedDescription)")
-                                //}
-                            } catch {}
-                        }
-                        
                         if (item.artists.count == 0)
                         {
                             do {
@@ -191,6 +177,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 //    print("insert error: \(error!.localizedDescription)")
                                 //}
                             } catch {}
+                        }
+                        else if (item.artists.count > 0) {
+                            for artistItem in item.artists {
+                                
+                                let artist = NSEntityDescription.insertNewObject(forEntityName: "Artist", into: managedObjectContext) as! Artist
+                                artist.name = artistItem
+                                artist.song = song
+                                
+                                do {
+                                    try managedObjectContext.save()
+                                    //if managedObjectContext.save() != true {
+                                    //    print("insert error: \(error!.localizedDescription)")
+                                    //}
+                                } catch {}
+                            }
                         }
                     }
                 }

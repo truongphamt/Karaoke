@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class TableViewCell : UITableViewCell{
     
@@ -17,22 +18,35 @@ class TableViewCell : UITableViewCell{
 
 class TableViewController: UIViewController, UITableViewDataSource, UISearchBarDelegate {
 
-    let data = ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX",
-                "Philadelphia, PA", "Phoenix, AZ", "San Diego, CA", "San Antonio, TX",
-                "Dallas, TX", "Detroit, MI", "San Jose, CA", "Indianapolis, IN",
-                "Jacksonville, FL", "San Francisco, CA", "Columbus, OH", "Austin, TX",
-                "Memphis, TN", "Baltimore, MD", "Charlotte, ND", "Fort Worth, TX"]
-    var filteredData: [String]!
+    let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
+    var data : [Song]!
+    var filteredData : [Song]!
+    var sectionIndex = [String]()
+    let numberOfRowsInSection = 500
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        super.viewDidLoad()
         tableView.dataSource = self
         searchBar.delegate = self
-        filteredData = data
+        
+        let index = "1 501 1001 1501 2001 2501 3001 3501 4001 4501 5001 5501 6001"
+        sectionIndex = index.components(separatedBy: " ")
+        
+        // Create a new fetch request using the LogItem entity
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Song")
+        
+        do {
+            // Execute the fetch request, and cast the results to an array of LogItem objects
+            if let fetchResults = try managedObjectContext?.fetch(fetchRequest) as? [Song] {
+                data = fetchResults
+                filteredData = fetchResults
+            }
+        } catch {}
+        
+        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -48,10 +62,15 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! TableViewCell
 
+        var artistNames = [String]()
+        for artist in filteredData[indexPath.item].artists as! Set<Artist> {
+            artistNames.append(artist.name!)
+        }
+        
         // Configure the cell...
-        cell.Number?.text = "\(indexPath.item)"
-        cell.Title?.text = filteredData[indexPath.item]
-        cell.Artists?.text = filteredData[indexPath.item]
+        cell.Number?.text = filteredData[indexPath.item].number
+        cell.Title?.text = filteredData[indexPath.item].title
+        cell.Artists?.text = artistNames.joined(separator: ", ")
         
         return cell
     }
@@ -63,9 +82,17 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
         // Use the filter method to iterate over all items in the data array
         // For each item, return true if the item should be included and false if the
         // item should NOT be included
-        filteredData = searchText.isEmpty ? data : data.filter({(dataString: String) -> Bool in
+        filteredData = searchText.isEmpty ? data : data.filter({(song: Song) -> Bool in
             // If dataItem matches the searchText, return true to include it
-            return dataString.range(of: searchText, options: .caseInsensitive) != nil
+            var artistNames = [String]()
+            for artist in song.artists as! Set<Artist> {
+                artistNames.append(artist.name!)
+            }
+            
+            let titleMatched = song.title!.range(of: searchText, options: .caseInsensitive) != nil
+            let artistMatched = artistNames.joined().range(of: searchText, options: .caseInsensitive) != nil
+            
+            return titleMatched && artistMatched
         })
         
         tableView.reloadData()
