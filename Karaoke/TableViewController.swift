@@ -12,7 +12,7 @@ class TableViewCell : UITableViewCell{
     
     @IBOutlet weak var Number: UILabel!
     @IBOutlet weak var Title: UILabel!
-    @IBOutlet weak var Author: UILabel!
+    @IBOutlet weak var Artists: UILabel!
 }
 
 class TableViewController: UIViewController, UITableViewDataSource, UISearchBarDelegate {
@@ -51,7 +51,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
         // Configure the cell...
         cell.Number?.text = "\(indexPath.item)"
         cell.Title?.text = filteredData[indexPath.item]
-        cell.Author?.text = filteredData[indexPath.item]
+        cell.Artists?.text = filteredData[indexPath.item]
         
         return cell
     }

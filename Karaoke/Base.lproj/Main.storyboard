@@ -56,7 +56,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="Author" destination="DJZ-Ph-276" id="0O6-Xk-ESN"/>
+                                            <outlet property="Artists" destination="DJZ-Ph-276" id="cMd-Ps-023"/>
                                             <outlet property="Number" destination="ZSN-WT-9Dn" id="ObG-pu-LQK"/>
                                             <outlet property="Title" destination="Y5v-jw-lpT" id="L5W-c0-ZuG"/>
                                         </connections>

@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let defaults = UserDefaults.standard
+        let isPreloaded = defaults.bool(forKey: "isPreloaded")
+        if !isPreloaded {
+            preloadData()
+            //defaults.set(true, forKey: "isPreloaded")
+        }
         return true
     }
 
@@ -40,20 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-
-    private func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        let defaults = UserDefaults.standard
-        let isPreloaded = defaults.bool(forKey: "isPreloaded")
-        if !isPreloaded {
-            //preloadData()
-            defaults.set(true, forKey: "isPreloaded")
-        }
-        
-        return true
     }
     
     // MARK: - Core Data stack
@@ -130,12 +122,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Parsing Csv file
-    func parseCSV (contentsOfURL: NSURL, encoding: String.Encoding, error: NSErrorPointer) -> [(number:String, title:String, artists: String)]? {
+    func parseCSV (contentsOfURL: NSURL, encoding: String.Encoding, error: NSErrorPointer) -> [(number:String, title:String, artists: [String])]? {
         // Load the CSV file and parse it
         let delimiter = ","
-        var items:[(number:String, title:String, artists: String)]?
-        
-        //let content = String(contentsOfURL: contentsOfURL, encoding: encoding, error: error)
+        var items:[(number:String, title:String, artists: [String])]?
         var content = ""
         do {
             content = try NSString(contentsOf: contentsOfURL as URL, encoding: String.Encoding.utf8.rawValue) as String
@@ -151,7 +141,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 values = line.components(separatedBy: delimiter)
                 
                 // Put the values into the tuple and add it to the items array
-                let item = (number: values[0], title: values[1], artists: values[2].replacingOccurrences(of: "\"", with: ""))
+                let artistsArray = values[2].components(separatedBy: ";")
+                let artistsTrimmed = artistsArray.map { $0.trimmingCharacters(in: .whitespaces) }
+                
+                let item = (number: values[0], title: values[1], artists: artistsTrimmed)
                 items?.append(item)
             }
         }
@@ -171,19 +164,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Preload the menu items
                 if let managedObjectContext = self.managedObjectContext {
                     for item in items {
-                        let menuItem = NSEntityDescription.insertNewObject(forEntityName: "Song", into: managedObjectContext) as! Song
                         
-                        //menuItem.number = item.number
-                        menuItem.title = item.title
-                        //menuItem.artists = item.artists
+                        let song = NSEntityDescription.insertNewObject(forEntityName: "Song", into: managedObjectContext) as! Song
+                        song.number = item.number
+                        song.title = item.title
                         
-                        do {
-                            try managedObjectContext.save()
-                            //if managedObjectContext.save() != true {
-                            //    print("insert error: \(error!.localizedDescription)")
-                            //}
-                        } catch {}
+                        for artistItem in item.artists {
+                            
+                            let artist = NSEntityDescription.insertNewObject(forEntityName: "Artist", into: managedObjectContext) as! Artist
+                            artist.name = artistItem
+                            artist.song = song
+                            
+                            do {
+                                try managedObjectContext.save()
+                                //if managedObjectContext.save() != true {
+                                //    print("insert error: \(error!.localizedDescription)")
+                                //}
+                            } catch {}
+                        }
                         
+                        if (item.artists.count == 0)
+                        {
+                            do {
+                                try managedObjectContext.save()
+                                //if managedObjectContext.save() != true {
+                                //    print("insert error: \(error!.localizedDescription)")
+                                //}
+                            } catch {}
+                        }
                     }
                 }
             }
@@ -198,10 +206,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 // Execute the fetch request, and cast the results to an array of LogItem objects
                 if let fetchResults = try managedObjectContext.fetch(fetchRequest) as? [Song] {
-                    //self.songsArray = fetchResults
-                    
-                    for menuItem in fetchResults {
-                        managedObjectContext.delete(menuItem)
+                    for song in fetchResults {
+                        managedObjectContext.delete(song)
                     }
                 }
             } catch {}
