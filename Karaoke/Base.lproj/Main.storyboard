@@ -79,7 +79,7 @@
                     <tabBarItem key="tabBarItem" title="Item" id="9zo-cP-T5H"/>
                     <connections>
                         <outlet property="searchBar" destination="Znl-9c-KTr" id="8c1-Pf-LXu"/>
-                        <outlet property="tableView" destination="6K1-u3-Aiz" id="mYZ-XF-Y5D"/>
+                        <outlet property="tableView" destination="6K1-u3-Aiz" id="d6R-s0-4X3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fj1-2K-HyP" userLabel="First Responder" sceneMemberID="firstResponder"/>

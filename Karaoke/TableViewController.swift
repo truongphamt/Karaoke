@@ -23,6 +23,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
     var filteredData : [Song]!
     var sectionIndex = [String]()
     let numberOfRowsInSection = 500
+    var isSearching: Bool { get {return filteredData.count != data.count}}
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -52,19 +53,29 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return isSearching ? 1 : sectionIndex.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredData.count
+        if (isSearching) {
+            return filteredData.count
+        }
+        
+        var rows = data.count-(section*numberOfRowsInSection)
+        if (rows > numberOfRowsInSection) {
+            rows = numberOfRowsInSection
+        }
+        
+        return rows
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! TableViewCell
-
-        cell.Number?.text = filteredData[indexPath.row].number
-        cell.Title?.text = filteredData[indexPath.row].title
-        cell.Artists?.text = filteredData[indexPath.row].artists
+        let song = isSearching ? filteredData[indexPath.row] : data[indexPath.row + (indexPath.section*numberOfRowsInSection)]
+        
+        cell.Number?.text = song.number
+        cell.Title?.text = song.title
+        cell.Artists?.text = song.artists
         
         return cell
     }
@@ -84,7 +95,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
             return titleMatched || artistMatched
         })
         
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -96,8 +107,15 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
         searchBar.text = ""
         searchBar.resignFirstResponder()
     }
-    
 
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sectionIndex
+    }
+    
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return index
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
