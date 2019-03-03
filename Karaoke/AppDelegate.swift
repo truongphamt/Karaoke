@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         let isPreloaded = defaults.bool(forKey: "isPreloaded")
         if !isPreloaded {
-            //preloadData()
-            //defaults.set(true, forKey: "isPreloaded")
+            preloadData()
+            defaults.set(true, forKey: "isPreloaded")
         }
         return true
     }

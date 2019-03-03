@@ -48,6 +48,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
             }
         } catch {}
         
+        self.tabBarController?.tabBar.isHidden = true
         self.tableView.reloadData()
     }
 
