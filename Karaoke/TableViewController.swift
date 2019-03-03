@@ -62,15 +62,9 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! TableViewCell
 
-        var artistNames = [String]()
-        for artist in filteredData[indexPath.item].artists as! Set<Artist> {
-            artistNames.append(artist.name!)
-        }
-        
-        // Configure the cell...
-        cell.Number?.text = filteredData[indexPath.item].number
-        cell.Title?.text = filteredData[indexPath.item].title
-        cell.Artists?.text = artistNames.joined(separator: ", ")
+        cell.Number?.text = filteredData[indexPath.row].number
+        cell.Title?.text = filteredData[indexPath.row].title
+        cell.Artists?.text = filteredData[indexPath.row].artists
         
         return cell
     }
@@ -84,15 +78,10 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
         // item should NOT be included
         filteredData = searchText.isEmpty ? data : data.filter({(song: Song) -> Bool in
             // If dataItem matches the searchText, return true to include it
-            var artistNames = [String]()
-            for artist in song.artists as! Set<Artist> {
-                artistNames.append(artist.name!)
-            }
-            
             let titleMatched = song.title!.range(of: searchText, options: .caseInsensitive) != nil
-            let artistMatched = artistNames.joined().range(of: searchText, options: .caseInsensitive) != nil
+            let artistMatched = song.artists!.range(of: searchText, options: .caseInsensitive) != nil
             
-            return titleMatched && artistMatched
+            return titleMatched || artistMatched
         })
         
         tableView.reloadData()

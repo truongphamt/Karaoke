@@ -122,10 +122,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Parsing Csv file
-    func parseCSV (contentsOfURL: NSURL, encoding: String.Encoding, error: NSErrorPointer) -> [(number:String, title:String, artists: [String])]? {
+    func parseCSV (contentsOfURL: NSURL, encoding: String.Encoding, error: NSErrorPointer) -> [(number:String, title:String, artists: String)]? {
         // Load the CSV file and parse it
         let delimiter = ","
-        var items:[(number:String, title:String, artists: [String])]?
+        var items:[(number:String, title:String, artists:String)]?
         var content = ""
         do {
             content = try NSString(contentsOf: contentsOfURL as URL, encoding: String.Encoding.utf8.rawValue) as String
@@ -143,8 +143,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Put the values into the tuple and add it to the items array
                 let artistsArray = values[2].components(separatedBy: ";")
                 let artistsTrimmed = artistsArray.map { $0.trimmingCharacters(in: .whitespaces) }
+                let artistsJoined = artistsTrimmed.joined(separator: ", ")
                 
-                let item = (number: values[0], title: values[1], artists: artistsTrimmed)
+                let item = (number: values[0].trimmingCharacters(in: .whitespaces), title: values[1].trimmingCharacters(in: .whitespaces), artists: artistsJoined)
                 items?.append(item)
             }
         }
@@ -164,35 +165,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Preload the menu items
                 if let managedObjectContext = self.managedObjectContext {
                     for item in items {
-                        
                         let song = NSEntityDescription.insertNewObject(forEntityName: "Song", into: managedObjectContext) as! Song
+                        
                         song.number = item.number
                         song.title = item.title
+                        song.artists = item.artists
                         
-                        if (item.artists.count == 0)
-                        {
-                            do {
-                                try managedObjectContext.save()
-                                //if managedObjectContext.save() != true {
-                                //    print("insert error: \(error!.localizedDescription)")
-                                //}
-                            } catch {}
-                        }
-                        else if (item.artists.count > 0) {
-                            for artistItem in item.artists {
-                                
-                                let artist = NSEntityDescription.insertNewObject(forEntityName: "Artist", into: managedObjectContext) as! Artist
-                                artist.name = artistItem
-                                artist.song = song
-                                
-                                do {
-                                    try managedObjectContext.save()
-                                    //if managedObjectContext.save() != true {
-                                    //    print("insert error: \(error!.localizedDescription)")
-                                    //}
-                                } catch {}
-                            }
-                        }
+                        do { try managedObjectContext.save() } catch {}
                     }
                 }
             }
