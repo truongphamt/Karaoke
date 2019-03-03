@@ -33,8 +33,9 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
         tableView.dataSource = self
         searchBar.delegate = self
         
-        let index = "1 501 1001 1501 2001 2501 3001 3501 4001 4501 5001 5501 6001"
-        sectionIndex = index.components(separatedBy: " ")
+        //0=0, 1=2, 2=4, 3=6, 5=9
+        let index = "1,,,501,,,1001,,,1501,,,2001,,,2501,,,3001,,,3501,,,4001,,,4501,,,5001,,,5501,,,6001"
+        sectionIndex = index.components(separatedBy: ",")
         
         // Create a new fetch request using the LogItem entity
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Song")
@@ -61,7 +62,12 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
             return filteredData.count
         }
         
-        var rows = data.count-(section*numberOfRowsInSection)
+        if (section % 3 != 0) {
+            return 0
+        }
+        
+        let realSection = (section) / 3
+        var rows = data.count-(realSection*numberOfRowsInSection)
         if (rows > numberOfRowsInSection) {
             rows = numberOfRowsInSection
         }
@@ -71,7 +77,8 @@ class TableViewController: UIViewController, UITableViewDataSource, UISearchBarD
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! TableViewCell
-        let song = isSearching ? filteredData[indexPath.row] : data[indexPath.row + (indexPath.section*numberOfRowsInSection)]
+        let realSection = indexPath.section == 0 ? 0 : (indexPath.section) / 3
+        let song = isSearching ? filteredData[indexPath.row] : data[indexPath.row + (realSection * numberOfRowsInSection)]
         
         cell.Number?.text = song.number
         cell.Title?.text = song.title
